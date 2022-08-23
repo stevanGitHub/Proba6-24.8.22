@@ -39,6 +39,59 @@ extern void userMain();
 void userWrapperThread(void* arg) {
     userMain();
 }
+/*
+
+sem_t agent,mutex,matches,paper,tabacco;
+void agentfun(void *arg);
+void smoker1(void* arg);
+void smoker2(void* arg);
+void smoker3(void* arg);
+*/
+
+bool finishedP1 = false;
+bool finishedP2 = false;
+
+void p1(void *) {
+    for(int i  = 0; i < 10; ++i) {
+        if(i == 5){
+            Thread::dispatch();
+        }
+        printInt(i, 10, 0);
+        printString("\n");
+    }
+    bool finishedP1 = true;
+}
+
+void p2(void *) {
+    for(int i  = 10; i > 0; --i) {
+        if(i == 5){
+            Thread::dispatch();
+        }
+        printInt(i, 10, 0);
+        printString("\n");
+    }
+    finishedP2 = true;
+}
+
+class IzvedenaThread1: public Thread {
+//    void workerBodyC(void* arg);
+public:
+    IzvedenaThread1():Thread() {}
+
+    void run() override {
+        p1(nullptr);
+    }
+};
+
+class IzvedenaThread2: public Thread {
+//    void workerBodyC(void* arg);
+public:
+    IzvedenaThread2():Thread() {}
+
+    void run() override {
+        p2(nullptr);
+    }
+};
 
 void main() {
     // postavljena adresa prekidne rutine u stvec
@@ -74,26 +127,42 @@ void main() {
 */
 
 
-//    printInt((uint64)Riscv::r_sstatus());
-//    printString("Sstatus = ");
-
+   // changeMod();
     // Obavezno postaviti prvo fju main kao pocetnu nit
     thread_t mainThread;
     thread_create(&mainThread, nullptr, nullptr);
     TCB::running = mainThread;
 
 
-    volatile thread_t userThread;
-    printString("\nuserThread: ");
-    printInt((uint64)&userThread, 16, 0);
-    if(thread_create((thread_t*)&userThread, userWrapperThread, nullptr) < 0) {
-        printString("Greska");
+ //   Thread* thr1 = new Thread(p1, nullptr);
+//    Thread* thr2 = new Thread(p2, nullptr);
+//
+ //   thr1->start(); //thr2->start();
+
+    Thread* t1 = new IzvedenaThread1();
+//
+   t1->start();
+//    while(1) {
+//        Thread::dispatch();
+//    }
+    //Thread::dispatch();
+
+    while (!(finishedP1)) {
+        Thread::dispatch();
     }
 
 
-    while(!userThread->isFinished()) {
-        thread_dispatch();
-    }
+    //  Riscv::mc_sstatus(Riscv::SSTATUS_SPP);
+
+//    thread_t userThread;
+//  thread_create(&userThread, userWrapperThread, nullptr);
+
+
+//   userMain();
+
+//    while(!userThread->isFinished()) {
+//        thread_dispatch();
+//    }
 
 
 /*
@@ -103,11 +172,7 @@ void main() {
     testThreadsC();
     */
 
-   // testThreadsCPP();
-    // testThreadsC();
-    printString("\n Vratio se u main"); // Treba da se vrati u main! Na console treba da pise "Kernel finished"
-
-    //Threads_CPP_API_test();
+  // printString("\n Vratio se u main\n"); // Treba da se vrati u main! Na console treba da pise "Kernel finished"
 /*
 
 
@@ -125,5 +190,84 @@ void main() {
     }*/
 
 
+/*    sem_open(&mutex,1);
+    sem_open(&paper,0);
+    sem_open(&matches,0);
+    sem_open(&agent,0);
+    sem_open(&tabacco,0);
+
+    thread_t t= nullptr;
+    thread_t t1= nullptr;
+    thread_t t2= nullptr;
+    thread_t t3= nullptr;
+
+    thread_create(&t, agentfun, nullptr);
+    thread_create(&t1, smoker1, nullptr);
+    thread_create(&t2, smoker2, nullptr);
+    thread_create(&t3, smoker3, nullptr);
+
+    for (int i = 0; i < 31; ++i) {
+        thread_dispatch();
+    }*/
+
 
 }
+
+
+/*
+
+void agentfun(void *args){
+    int i=0;
+    while (true){
+        sem_wait(mutex);
+        switch (i%3) {
+            case 0:
+                printString("Na stolu su: duvan i papir\n");
+                sem_signal(matches);
+                break;
+            case 1:
+                printString("Na stolu su: duvan i sibice\n");
+                sem_signal(paper);
+                break;
+            case 2:
+                printString("Na stolu su: sibice i papir\n");
+                sem_signal(tabacco);
+                break;
+        }
+        i++;
+        sem_signal(mutex);
+        sem_wait(agent);
+    }
+}
+
+void smoker1(void *arg){
+    while (true){
+        sem_wait(paper);
+        sem_wait(mutex);
+
+        printString("Pera ima papir i pusi\n");
+        sem_signal(agent);
+        sem_signal(mutex);
+    }
+}
+
+void smoker2(void *arg){
+    while (true){
+        sem_wait(matches);
+        sem_wait(mutex);
+
+        printString("Mika ima sibice i pusi\n");
+        sem_signal(agent);
+        sem_signal(mutex);
+    }
+}
+
+void smoker3(void *arg){
+    while (true){
+        sem_wait(tabacco);
+        sem_wait(mutex);
+        printString("Zika ima duvan i pusi\n");
+        sem_signal(agent);
+        sem_signal(mutex);
+    }
+}*/

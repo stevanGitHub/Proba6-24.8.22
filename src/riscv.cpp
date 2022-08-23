@@ -105,8 +105,8 @@ void Riscv::handleSupervisorTrap() {
                     if(*handle) ret =  0;
                     else ret = -3;
 
-                    printString("\nhandle: ");
-                    printInt((uint64)handle, 16, 0);
+//                    printString("\nhandle: ");
+//                    printInt((uint64)handle, 16, 0);
 
                     __asm__ volatile ("sd %[xx], 10*8(fp)" : : [xx] "r" (ret) ); // store a0 on stack
 
@@ -131,6 +131,7 @@ void Riscv::handleSupervisorTrap() {
 
                     sepc = r_sepc() + 4; sstatus = r_sstatus();
                     TCB::timeSliceCounter = 0;
+            //        printString("\nIde dispatch iz user\n");
                     TCB::dispatch();
                     w_sstatus(sstatus); w_sepc(sepc);
 
@@ -166,12 +167,23 @@ void Riscv::handleSupervisorTrap() {
                 case PUTC:
 
                     break;
+                case CHANGE_MOD:
+                    printString("\nUSAO U CHANGE MOD IZ USER\n");
+                    Riscv::mc_sstatus(Riscv::SSTATUS_SPP);
+
+
+                        w_sepc(r_sepc() + 4UL);
+                        __asm__ volatile ("csrc sip, 0x02");
+                    break;
                 default:
                     // interrupt: no; cause code: environment call from S-mode(9) == YIELD
                     uint64 sepc = r_sepc() + 4; uint64 sstatus = r_sstatus();
                     TCB::timeSliceCounter = 0;
                     TCB::dispatch();
                     w_sstatus(sstatus); w_sepc(sepc);
+
+                    w_sepc(r_sepc() + 4UL);
+                    __asm__ volatile ("csrc sip, 0x02");
 
                     break;
 
@@ -183,6 +195,7 @@ void Riscv::handleSupervisorTrap() {
             break;
 
         case ECALL_SYST: // ecall iz sistemskog rezima ** ulazice se ovde zbog sys_calla i yielda
+//            printString("\nUsao u ecall syst\n");
         //   __asm__ volatile ("mv %[code], a0" : [code] "=r" (code) );
            __asm__ volatile ("ld %[code], 10 * 8(fp)" : [code] "=r" (code)); // procita code iz a0 sa steka
 
@@ -234,8 +247,8 @@ void Riscv::handleSupervisorTrap() {
                     if(*handle) ret =  0;
                     else ret = -3;
 
-                    printString("\nhandle: ");
-                    printInt((uint64)handle, 16, 0);
+//                    printString("\nhandle: ");
+//                    printInt((uint64)handle, 16, 0);
 
                     __asm__ volatile ("sd %[xx], 10*8(fp)" : : [xx] "r" (ret) ); // store a0 on stack
 
@@ -295,12 +308,21 @@ void Riscv::handleSupervisorTrap() {
                 case PUTC:
 
                     break;
+                case CHANGE_MOD:
+                    Riscv::mc_sstatus(Riscv::SSTATUS_SPP);
+                    printString("\nUSAO U CHANGE MOD IZ SISTEMSKOG\n");
+
+                    w_sepc(r_sepc() + 4UL);
+                    __asm__ volatile ("csrc sip, 0x02");
+                    break;
                 default:
                     // interrupt: no; cause code: environment call from S-mode(9)
                     uint64 sepc = r_sepc() + 4; uint64 sstatus = r_sstatus();
                     TCB::timeSliceCounter = 0;
                     TCB::dispatch();
                     w_sstatus(sstatus); w_sepc(sepc);
+                    w_sepc(r_sepc() + 4UL);
+                    __asm__ volatile ("csrc sip, 0x02");
 
                     break;
 

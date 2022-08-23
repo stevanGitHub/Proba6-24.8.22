@@ -24,6 +24,7 @@ public:
 
     static int sleep (time_t);
 
+    static void starter (void*);
 protected:
     Thread ();
 
@@ -31,10 +32,11 @@ protected:
 private:
     thread_t myHandle;
 
-    static void starter (void*);
+
+ };
 
 
-};
+
 //
 //class Semaphore {
 //public:

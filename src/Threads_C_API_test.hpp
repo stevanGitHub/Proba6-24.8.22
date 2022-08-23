@@ -4,7 +4,6 @@
 #include "../h/syscall_c.h"
 
 #include "printing.hpp"
-
 bool finishedA = false;
 bool finishedB = false;
 bool finishedC = false;
@@ -20,7 +19,7 @@ void workerBodyA(void* arg) {
     for (uint64 i = 0; i < 10; i++) {
         printString("A: i="); printInt(i); printString("\n");
         for (uint64 j = 0; j < 10000; j++) {
-//            for (uint64 k = 0; k < 30000; k++) { /* busy wait */ }
+            for (uint64 k = 0; k < 30000; k++) {  /*busy wait*/  }
             thread_dispatch();
         }
     }
@@ -32,7 +31,7 @@ void workerBodyB(void* arg) {
     for (uint64 i = 0; i < 16; i++) {
         printString("B: i="); printInt(i); printString("\n");
         for (uint64 j = 0; j < 10000; j++) {
-//            for (uint64 k = 0; k < 30000; k++) { /* busy wait */ }
+            for (uint64 k = 0; k < 30000; k++) {  /*busy wait*/  }
             thread_dispatch();
         }
     }
@@ -60,10 +59,9 @@ void workerBodyC(void* arg) {
     printString("C: fibonaci="); printInt(result); printString("\n");
 
     for (; i < 6; i++) {
-        printString("C: i="); printInt(i); printString("\n");
+       printString("C: i="); printInt(i); printString("\n");
     }
-
-    printString("A finished!\n");
+    printString("C finished!\n");
     finishedC = true;
     thread_dispatch();
 }
@@ -74,18 +72,18 @@ void workerBodyD(void* arg) {
         printString("D: i="); printInt(i); printString("\n");
     }
 
-    printString("D: dispatch\n");
+   printString("D: dispatch\n");
     __asm__ ("li t1, 5");
     thread_dispatch();
 
     uint64 result = fibonacci(16);
-    printString("D: fibonaci="); printInt(result); printString("\n");
+   printString("D: fibonaci="); printInt(result); printString("\n");
 
     for (; i < 16; i++) {
-        printString("D: i="); printInt(i); printString("\n");
+       printString("D: i="); printInt(i); printString("\n");
     }
 
-    printString("D finished!\n");
+   printString("D finished!\n");
     finishedD = true;
     thread_dispatch();
 }
@@ -93,23 +91,23 @@ void workerBodyD(void* arg) {
 
 void Threads_C_API_test() {
     thread_t threads[4];
-    printString("\nthr0: ");
-    printInt((uint64)&threads[0], 16, 0);
+//    printString("\nthr0: ");
+//    printInt((uint64)&threads[0], 16, 0);
     thread_create(&threads[0], workerBodyA, nullptr);
     printString("ThreadA created\n");
 
-    printString("\nthr0: ");
-    printInt((uint64)&threads[1], 16, 0);
+//    printString("\nthr0: ");
+//    printInt((uint64)&threads[1], 16, 0);
     thread_create(&threads[1], workerBodyB, nullptr);
     printString("ThreadB created\n");
 
-    printString("\nthr0: ");
-    printInt((uint64)&threads[2], 16, 0);
+//    printString("\nthr0: ");
+//    printInt((uint64)&threads[2], 16, 0);
     thread_create(&threads[2], workerBodyC, nullptr);
     printString("ThreadC created\n");
 
-    printString("\nthr0: ");
-    printInt((uint64)&threads[3], 16, 0);
+//    printString("\nthr0: ");
+//    printInt((uint64)&threads[3], 16, 0);
     thread_create(&threads[3], workerBodyD, nullptr);
     printString("ThreadD created\n");
 

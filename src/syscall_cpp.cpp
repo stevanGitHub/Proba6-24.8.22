@@ -9,7 +9,7 @@
 Thread::Thread(void (*body)(void *), void *arg) {
     MASK_INTR
 
-    void *stack_space = __mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
+    void *stack_space = mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
 
     myHandle = TCB::createTCB(body, arg, stack_space);
 
@@ -17,15 +17,13 @@ Thread::Thread(void (*body)(void *), void *arg) {
 }
 
 int Thread::start() {
-        if(myHandle == 0){
+        if(myHandle == nullptr) {
 
-            /*void *stack_space = __mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
-            myHandle = TCB::createTCB(&starter, this, stack_space);*/
-            thread_create(&myHandle, &starter, this);
-
-        } else {
-            putThread(myHandle);
-        }
+            printString("Usao u start");
+            void *stack_space = mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
+            myHandle = TCB::createTCB(starter, this, stack_space);
+            myHandle->TCB::putTCBinQueue(myHandle);
+        } else putThread(myHandle);
         return 0;
 }
 
@@ -42,9 +40,10 @@ Thread::~Thread() {
     delete myHandle;
 }
 
-Thread::Thread() : myHandle(0) {}
+Thread::Thread() : myHandle(nullptr) {}
 
 void Thread::starter(void* toStart) {
+    //printString("\nSTARTER\n");
     Thread* t = (Thread*)toStart;
     if(t) t->run();
 }

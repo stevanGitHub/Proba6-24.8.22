@@ -44,5 +44,8 @@ int sem_wait (sem_t id);
 int sem_signal (sem_t id);
 
 
+void changeMod();
+
+
 
 #endif //PROBA3_PROJECT_BASE_SYSCALL_C_H

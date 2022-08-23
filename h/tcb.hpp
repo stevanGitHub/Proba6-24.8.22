@@ -27,10 +27,12 @@ typedef TCB* thread_t;
 class TCB {
 public:
 
+
+
     static void dispatch();
 
     ~TCB() { delete[] stack;
-        printString("\nDestructor is executed\n");
+      //  printString("\nDestructor is executed\n");
     }
 
     bool isFinished() const { return finished; }
@@ -49,6 +51,8 @@ public:
     static TCB *createThread(Body body, void *arg, void* stack_space);
 
     static TCB *createTCB(Body body, void *arg, void* stack_space);
+
+    static TCB *createFromStart(Body body);
 
     void putTCBinQueue(TCB *tcb);
 

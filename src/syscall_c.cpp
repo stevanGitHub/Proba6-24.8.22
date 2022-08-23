@@ -47,10 +47,11 @@ int mem_free (void* ptr) {
 
 int thread_create (thread_t* handle, void(*start_routine)(void*), void* arg) {
     uint64 code = THREAD_CREATE;
-    void *stack_space = __mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
+//    void *stack_space = __mem_alloc(sizeof(uint64) * DEFAULT_STACK_SIZE);
+    void *stack_space = MemoryAllocator::getInstance()->myMalloc(DEFAULT_STACK_SIZE*sizeof(uint64));
 
-    printString("\nhandle u thread_create: ");
-    printInt((uint64)handle, 16, 0);
+//    printString("\nhandle u thread_create: ");
+//    printInt((uint64)handle, 16, 0);
 
     __asm__ volatile ("mv a4, %[stack_space]" : : [stack_space] "r" (stack_space));
     __asm__ volatile ("mv a3, %[arg]" : : [arg] "r" (arg));
@@ -123,4 +124,11 @@ int sem_signal (sem_t id){
     id->signal();
 
     return 0;
+}
+
+void changeMod() {
+    uint64 code = CHANGE_MOD;
+    __asm__ volatile ("mv a0, %[code]" : : [code] "r" (code));
+
+    __asm__ volatile ("ecall");
 }
