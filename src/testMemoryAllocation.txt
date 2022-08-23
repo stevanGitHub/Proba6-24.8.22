@@ -1,0 +1,105 @@
+ /*  char *p = (char*)mem_alloc(135 * sizeof(char ));
+
+    printString("\nVrednost ptr u mainu: ");
+    printInteger((uint64)p);
+
+    int x = mem_free(p);
+
+    if(x == 0) {
+        printString("\n uspeo");
+    } else printString("\nnije Uspeo");
+
+   */
+
+    /*
+        __putc('\n');
+        __putc('\n');
+
+        int row = 5, col = 4;
+        int *a = (int *)mem_alloc(row * col * sizeof(int));
+
+        printString("\nVrednost ptr-a u mainu: ");
+        printInteger((uint64)a);
+        __putc('\n');
+
+        int i, j;
+        for (i = 0; i < row; i++)
+            for (j = 0; j < col; j++)
+                *(a + i*col + j) = i + j;
+
+        printString("The array elements are:\n");
+        for (i = 0; i < row; i++) {
+            for (j = 0; j < col; j++) {
+                printInteger(*(a + i*col + j));
+            }
+            printString("\n");
+        }
+
+        if(mem_free(a) == 0) {
+            printString("\nUspesno obrisana matrica");
+        } else printString("\n Nije obrisana matrica");
+
+        int row2 = 5, col2 = 4;
+        int *a2 = (int *)mem_alloc(row2 * col2 * sizeof(int));
+
+        printString("\nVrednost ptr -a2 u mainu: ");
+        printInteger((uint64)a2);
+        __putc('\n');
+    */
+
+    /*
+      char *p1 = (char*) mem_alloc(5);
+        char *p2 = (char*) mem_alloc(5);
+        char *p3 = (char*) mem_alloc(5);
+
+        printString("p1 = ");
+        printInteger((uint64)p1);
+        __putc('\n');
+        printString("p2 = ");
+        printInteger((uint64)p2);
+        __putc('\n');
+        printString("p3 = ");
+        printInteger((uint64)p3);
+        __putc('\n');
+
+        int x;
+     //   x = mem_free(p1);
+        x = mem_free(p2);
+     //   x = mem_free(p3);
+
+        /*
+        char *p4 = (char*) mem_alloc(5);
+        char *p5 = (char*) mem_alloc(5);
+        char *p6 = (char*) mem_alloc(5);
+    */
+        __putc('\n');
+        __putc('\n');
+        __putc('\n');
+
+
+        char *p6 = (char*) mem_alloc(5);
+        char *p7 = (char*) mem_alloc(5);
+
+        printString("p1 = ");
+        printInteger((uint64)p1);
+        __putc('\n');
+        printString("p6 = ");
+        printInteger((uint64)p6);
+        __putc('\n');
+        printString("p3 = ");
+        printInteger((uint64)p3);
+        __putc('\n');
+        printString("p7 = ");
+        printInteger((uint64)p7);
+        __putc('\n');
+        */
+
+
+        /*
+            printInteger((uint64)HEAP_START_ADDR);
+            __putc('\n');
+            printInteger((uint64)HEAP_END_ADDR);
+            __putc('\n');
+            printInteger(((char*)HEAP_END_ADDR - (char*)HEAP_START_ADDR)/sizeof(char));
+            __putc('\n');
+        */

@@ -1,0 +1,566 @@
+GAS LISTING /tmp/ccI4CSnj.s 			page 1
+
+
+   1              		.file	"main.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	_Z17userWrapperThreadPv
+   9              	_Z17userWrapperThreadPv:
+  10              	.LFB44:
+  11              		.file 1 "src/main.cpp"
+   1:src/main.cpp  **** #include "../lib/console.h"
+   2:src/main.cpp  **** #include "printing.hpp"
+   3:src/main.cpp  **** #include "../h/list.hpp"
+   4:src/main.cpp  **** #include "../h/syscall_c.h"
+   5:src/main.cpp  **** #include "../h/syscallCode.hpp"
+   6:src/main.cpp  **** #include "../h/riscv.hpp"
+   7:src/main.cpp  **** #include "../h/memoryAllocator.hpp"
+   8:src/main.cpp  **** #include "../lib/mem.h"
+   9:src/main.cpp  **** //#include "../h/workers.hpp"
+  10:src/main.cpp  **** #include "../h/tcb.hpp"
+  11:src/main.cpp  **** #include "../h/syscall_cpp.hpp"
+  12:src/main.cpp  **** 
+  13:src/main.cpp  **** 
+  14:src/main.cpp  **** /*sem_t sem1;
+  15:src/main.cpp  **** 
+  16:src/main.cpp  **** void p1(void *){
+  17:src/main.cpp  ****     sem_wait(sem1);
+  18:src/main.cpp  **** 
+  19:src/main.cpp  ****     printString("\nNitA usla");
+  20:src/main.cpp  **** 
+  21:src/main.cpp  ****     TCB::yield();
+  22:src/main.cpp  **** 
+  23:src/main.cpp  ****     //printString("\nNitA ponovo usla");
+  24:src/main.cpp  **** 
+  25:src/main.cpp  ****     sem_signal(sem1);
+  26:src/main.cpp  **** }
+  27:src/main.cpp  **** 
+  28:src/main.cpp  **** void p2(void *){
+  29:src/main.cpp  ****     printString("\nNitB nije usla");
+  30:src/main.cpp  **** 
+  31:src/main.cpp  ****     sem_wait(sem1);
+  32:src/main.cpp  **** 
+  33:src/main.cpp  ****     printString("\nNitB usla");
+  34:src/main.cpp  **** 
+  35:src/main.cpp  ****     TCB::yield();
+  36:src/main.cpp  **** }*/
+  37:src/main.cpp  **** extern void userMain();
+  38:src/main.cpp  **** 
+  39:src/main.cpp  **** void userWrapperThread(void* arg) {
+  12              		.loc 1 39 35
+  13              		.cfi_startproc
+  14              	.LVL0:
+  15 0000 130101FF 		addi	sp,sp,-16
+  16              		.cfi_def_cfa_offset 16
+  17 0004 23341100 		sd	ra,8(sp)
+  18 0008 23308100 		sd	s0,0(sp)
+  19              		.cfi_offset 1, -8
+GAS LISTING /tmp/ccI4CSnj.s 			page 2
+
+
+  20              		.cfi_offset 8, -16
+  21 000c 13040101 		addi	s0,sp,16
+  22              		.cfi_def_cfa 8, 0
+  40:src/main.cpp  ****     userMain();
+  23              		.loc 1 40 5
+  24              		.loc 1 40 13 is_stmt 0
+  25 0010 97000000 		call	_Z8userMainv@plt
+  25      E7800000 
+  26              	.LVL1:
+  41:src/main.cpp  **** }
+  27              		.loc 1 41 1
+  28 0018 83308100 		ld	ra,8(sp)
+  29              		.cfi_restore 1
+  30 001c 03340100 		ld	s0,0(sp)
+  31              		.cfi_restore 8
+  32              		.cfi_def_cfa 2, 16
+  33 0020 13010101 		addi	sp,sp,16
+  34              		.cfi_def_cfa_offset 0
+  35 0024 67800000 		jr	ra
+  36              		.cfi_endproc
+  37              	.LFE44:
+  39              		.section	.rodata.str1.8,"aMS",@progbits,1
+  40              		.align	3
+  41              	.LC0:
+  42 0000 0A757365 		.string	"\nuserThread: "
+  42      72546872 
+  42      6561643A 
+  42      2000
+  43 000e 0000     		.align	3
+  44              	.LC1:
+  45 0010 47726573 		.string	"Greska"
+  45      6B6100
+  46 0017 00       		.align	3
+  47              	.LC2:
+  48 0018 0A205672 		.string	"\n Vratio se u main"
+  48      6174696F 
+  48      20736520 
+  48      75206D61 
+  48      696E00
+  49              		.text
+  50              		.align	2
+  51              		.globl	main
+  53              	main:
+  54              	.LFB45:
+  42:src/main.cpp  **** 
+  43:src/main.cpp  **** void main() {
+  55              		.loc 1 43 13 is_stmt 1
+  56              		.cfi_startproc
+  57 0028 130101FD 		addi	sp,sp,-48
+  58              		.cfi_def_cfa_offset 48
+  59 002c 23341102 		sd	ra,40(sp)
+  60 0030 23308102 		sd	s0,32(sp)
+  61 0034 233C9100 		sd	s1,24(sp)
+  62              		.cfi_offset 1, -8
+  63              		.cfi_offset 8, -16
+  64              		.cfi_offset 9, -24
+  65 0038 13040103 		addi	s0,sp,48
+GAS LISTING /tmp/ccI4CSnj.s 			page 3
+
+
+  66              		.cfi_def_cfa 8, 0
+  44:src/main.cpp  ****     // postavljena adresa prekidne rutine u stvec
+  45:src/main.cpp  ****     __asm__ volatile ("csrw stvec, %[vector]" : : [vector] "r" (&Riscv::supervisorTrap) );
+  67              		.loc 1 45 5
+  68              		.loc 1 45 90 is_stmt 0
+  69 003c 97070000 		la	a5,_ZN5Riscv14supervisorTrapEv
+  69      83B70700 
+  70              	#APP
+  71              	# 45 "src/main.cpp" 1
+  46              	
+  47:src/main.cpp  **** /*
+  48:src/main.cpp  ****     thread_t threads[5];
+  49:src/main.cpp  ****     thread_create(&threads[0], workerBodyA, nullptr);
+  50:src/main.cpp  ****     TCB::running = threads[0];
+  51:src/main.cpp  **** 
+  52:src/main.cpp  ****     // postavljen bit 1 (SIE) na 1 => omuguceni prekidi
+  53:src/main.cpp  ****     __asm__ volatile ("csrs sstatus, 0x02");
+  54:src/main.cpp  **** 
+  55:src/main.cpp  ****     thread_create(&threads[1], workerBodyA, nullptr);
+  56:src/main.cpp  **** 
+  57:src/main.cpp  ****     thread_create(&threads[2], workerBodyB, nullptr);
+  58:src/main.cpp  ****     printString("ThreadB created\n");
+  59:src/main.cpp  **** 
+  60:src/main.cpp  ****     thread_create(&threads[3], workerBodyC, nullptr);
+  61:src/main.cpp  ****     printString("ThreadC created\n");
+  62:src/main.cpp  **** 
+  63:src/main.cpp  ****     thread_create(&threads[4], workerBodyD, nullptr);
+  64:src/main.cpp  ****     printString("ThreadD created\n");
+  65:src/main.cpp  **** 
+  66:src/main.cpp  **** 
+  67:src/main.cpp  ****     while (!(threads[1]->isFinished() && threads[2]->isFinished() &&
+  68:src/main.cpp  ****              threads[3]->isFinished() && threads[4]->isFinished())) {
+  69:src/main.cpp  ****        // TCB::yield();
+  70:src/main.cpp  ****        thread_dispatch();
+  71:src/main.cpp  ****     }
+  72:src/main.cpp  ****     for (auto &thread: threads) { delete thread; }
+  73:src/main.cpp  ****     printString("Finished\n");
+  74:src/main.cpp  **** */
+  75:src/main.cpp  **** 
+  76:src/main.cpp  **** 
+  77:src/main.cpp  **** //    printInt((uint64)Riscv::r_sstatus());
+  78:src/main.cpp  **** //    printString("Sstatus = ");
+  79:src/main.cpp  **** 
+  80:src/main.cpp  ****     // Obavezno postaviti prvo fju main kao pocetnu nit
+  81:src/main.cpp  ****     thread_t mainThread;
+  72              		csrw stvec, a5
+  73              	# 0 "" 2
+  74              		.loc 1 81 5 is_stmt 1
+  82:src/main.cpp  ****     thread_create(&mainThread, nullptr, nullptr);
+  75              		.loc 1 82 5
+  76              		.loc 1 82 18 is_stmt 0
+  77              	#NO_APP
+  78 0048 13060000 		li	a2,0
+  79 004c 93050000 		li	a1,0
+  80 0050 130584FD 		addi	a0,s0,-40
+  81 0054 97000000 		call	_Z13thread_createPP3TCBPFvPvES2_@plt
+  81      E7800000 
+GAS LISTING /tmp/ccI4CSnj.s 			page 4
+
+
+  82              	.LVL2:
+  83:src/main.cpp  ****     TCB::running = mainThread;
+  83              		.loc 1 83 5 is_stmt 1
+  84              		.loc 1 83 18 is_stmt 0
+  85 005c 97070000 		la	a5,_ZN3TCB7runningE
+  85      83B70700 
+  86 0064 033784FD 		ld	a4,-40(s0)
+  87 0068 23B0E700 		sd	a4,0(a5)
+  84:src/main.cpp  **** 
+  85:src/main.cpp  **** 
+  86:src/main.cpp  ****     volatile thread_t userThread;
+  88              		.loc 1 86 5 is_stmt 1
+  87:src/main.cpp  ****     printString("\nuserThread: ");
+  89              		.loc 1 87 5
+  90              		.loc 1 87 16 is_stmt 0
+  91 006c 17050000 		lla	a0,.LC0
+  91      13050500 
+  92 0074 97000000 		call	_Z11printStringPKc@plt
+  92      E7800000 
+  93              	.LVL3:
+  88:src/main.cpp  ****     printInt((uint64)&userThread, 16, 0);
+  94              		.loc 1 88 5 is_stmt 1
+  95              		.loc 1 88 13 is_stmt 0
+  96 007c 13060000 		li	a2,0
+  97 0080 93050001 		li	a1,16
+  98 0084 930404FD 		addi	s1,s0,-48
+  99 0088 1B850400 		sext.w	a0,s1
+ 100 008c 97000000 		call	_Z8printIntiii@plt
+ 100      E7800000 
+ 101              	.LVL4:
+  89:src/main.cpp  ****     if(thread_create((thread_t*)&userThread, userWrapperThread, nullptr) < 0) {
+ 102              		.loc 1 89 5 is_stmt 1
+ 103              		.loc 1 89 21 is_stmt 0
+ 104 0094 13060000 		li	a2,0
+ 105 0098 97050000 		lla	a1,_Z17userWrapperThreadPv
+ 105      93850500 
+ 106 00a0 13850400 		mv	a0,s1
+ 107 00a4 97000000 		call	_Z13thread_createPP3TCBPFvPvES2_@plt
+ 107      E7800000 
+ 108              	.LVL5:
+ 109              		.loc 1 89 5
+ 110 00ac 634E0500 		bltz	a0,.L8
+ 111              	.L6:
+  90:src/main.cpp  ****         printString("Greska");
+  91:src/main.cpp  ****     }
+  92:src/main.cpp  **** 
+  93:src/main.cpp  **** 
+  94:src/main.cpp  ****     while(!userThread->isFinished()) {
+ 112              		.loc 1 94 5 is_stmt 1
+ 113              		.loc 1 94 11
+ 114              		.loc 1 94 34 is_stmt 0
+ 115 00b0 833704FD 		ld	a5,-48(s0)
+ 116              	.LVL6:
+ 117              	.LBB4:
+ 118              	.LBB5:
+ 119              		.file 2 "src/../h/../h/tcb.hpp"
+   1:src/../h/../h/tcb.hpp **** //
+GAS LISTING /tmp/ccI4CSnj.s 			page 5
+
+
+   2:src/../h/../h/tcb.hpp **** // Created by os on 8/17/22.
+   3:src/../h/../h/tcb.hpp **** //
+   4:src/../h/../h/tcb.hpp **** 
+   5:src/../h/../h/tcb.hpp **** #ifndef PROBA3_PROJECT_BASE_TCB_HPP
+   6:src/../h/../h/tcb.hpp **** #define PROBA3_PROJECT_BASE_TCB_HPP
+   7:src/../h/../h/tcb.hpp **** 
+   8:src/../h/../h/tcb.hpp **** #include "../lib/hw.h"
+   9:src/../h/../h/tcb.hpp **** #include "../h/scheduler.hpp"
+  10:src/../h/../h/tcb.hpp **** #include "../h/memoryAllocator.hpp"
+  11:src/../h/../h/tcb.hpp **** #include "../lib/mem.h"
+  12:src/../h/../h/tcb.hpp **** 
+  13:src/../h/../h/tcb.hpp **** 
+  14:src/../h/../h/tcb.hpp **** 
+  15:src/../h/../h/tcb.hpp **** #define THREADS_NUM 64
+  16:src/../h/../h/tcb.hpp **** 
+  17:src/../h/../h/tcb.hpp **** //  IZLASKOM IZ F-JA WOKRERA NITI SE IMPLICINTNO ZAVRSAVAJU
+  18:src/../h/../h/tcb.hpp **** 
+  19:src/../h/../h/tcb.hpp **** extern void printString(char const *string);
+  20:src/../h/../h/tcb.hpp **** 
+  21:src/../h/../h/tcb.hpp **** 
+  22:src/../h/../h/tcb.hpp **** void *operator new(uint64 n);
+  23:src/../h/../h/tcb.hpp **** void *operator new[](uint64 n);
+  24:src/../h/../h/tcb.hpp **** 
+  25:src/../h/../h/tcb.hpp **** typedef TCB* thread_t;
+  26:src/../h/../h/tcb.hpp **** 
+  27:src/../h/../h/tcb.hpp **** class TCB {
+  28:src/../h/../h/tcb.hpp **** public:
+  29:src/../h/../h/tcb.hpp **** 
+  30:src/../h/../h/tcb.hpp ****     static void dispatch();
+  31:src/../h/../h/tcb.hpp **** 
+  32:src/../h/../h/tcb.hpp ****     ~TCB() { delete[] stack;
+  33:src/../h/../h/tcb.hpp ****         printString("\nDestructor is executed\n");
+  34:src/../h/../h/tcb.hpp ****     }
+  35:src/../h/../h/tcb.hpp **** 
+  36:src/../h/../h/tcb.hpp ****     bool isFinished() const { return finished; }
+ 120              		.loc 2 36 31 is_stmt 1
+ 121              		.loc 2 36 38 is_stmt 0
+ 122 00b4 83C70703 		lbu	a5,48(a5)
+ 123              	.LVL7:
+ 124              	.LBE5:
+ 125              	.LBE4:
+ 126              		.loc 1 94 11
+ 127 00b8 63920702 		bnez	a5,.L5
+  95:src/main.cpp  ****         thread_dispatch();
+ 128              		.loc 1 95 9 is_stmt 1
+ 129              		.loc 1 95 24 is_stmt 0
+ 130 00bc 97000000 		call	_Z15thread_dispatchv@plt
+ 130      E7800000 
+ 131              	.LVL8:
+ 132 00c4 6FF0DFFE 		j	.L6
+ 133              	.L8:
+  90:src/main.cpp  ****         printString("Greska");
+ 134              		.loc 1 90 9 is_stmt 1
+  90:src/main.cpp  ****         printString("Greska");
+ 135              		.loc 1 90 20 is_stmt 0
+ 136 00c8 17050000 		lla	a0,.LC1
+ 136      13050500 
+GAS LISTING /tmp/ccI4CSnj.s 			page 6
+
+
+ 137 00d0 97000000 		call	_Z11printStringPKc@plt
+ 137      E7800000 
+ 138              	.LVL9:
+ 139 00d8 6FF09FFD 		j	.L6
+ 140              	.L5:
+  96:src/main.cpp  ****     }
+  97:src/main.cpp  **** 
+  98:src/main.cpp  **** 
+  99:src/main.cpp  **** /*
+ 100:src/main.cpp  ****     // postavljen bit 1 (SIE) na 1 => omuguceni prekidi
+ 101:src/main.cpp  ****     __asm__ volatile ("csrs sstatus, 0x02");
+ 102:src/main.cpp  **** 
+ 103:src/main.cpp  ****     testThreadsC();
+ 104:src/main.cpp  ****     */
+ 105:src/main.cpp  **** 
+ 106:src/main.cpp  ****    // testThreadsCPP();
+ 107:src/main.cpp  ****     // testThreadsC();
+ 108:src/main.cpp  ****     printString("\n Vratio se u main"); // Treba da se vrati u main! Na console treba da pise "Kern
+ 141              		.loc 1 108 5 is_stmt 1
+ 142              		.loc 1 108 16 is_stmt 0
+ 143 00dc 17050000 		lla	a0,.LC2
+ 143      13050500 
+ 144 00e4 97000000 		call	_Z11printStringPKc@plt
+ 144      E7800000 
+ 145              	.LVL10:
+ 109:src/main.cpp  **** 
+ 110:src/main.cpp  ****     //Threads_CPP_API_test();
+ 111:src/main.cpp  **** /*
+ 112:src/main.cpp  **** 
+ 113:src/main.cpp  **** 
+ 114:src/main.cpp  ****     if(sem_open(&sem1, 1)) {}
+ 115:src/main.cpp  **** 
+ 116:src/main.cpp  ****     Thread* t1 = new Thread(p1, nullptr);
+ 117:src/main.cpp  ****     Thread* t2 = new Thread(p2, nullptr);
+ 118:src/main.cpp  **** 
+ 119:src/main.cpp  ****     t1->start(); t2->start();
+ 120:src/main.cpp  **** 
+ 121:src/main.cpp  ****     //sem_wait(sem1);https://code-with-me.global.jetbrains.com/nSOVLjqA8sGVbd17C0J6LQ#p=CL&fp=25A6A
+ 122:src/main.cpp  **** 
+ 123:src/main.cpp  ****     while(1){
+ 124:src/main.cpp  ****         thread_dispatch();
+ 125:src/main.cpp  ****     }*/
+ 126:src/main.cpp  **** 
+ 127:src/main.cpp  **** 
+ 128:src/main.cpp  **** 
+ 129:src/main.cpp  **** }
+ 146              		.loc 1 129 1
+ 147 00ec 83308102 		ld	ra,40(sp)
+ 148              		.cfi_restore 1
+ 149 00f0 03340102 		ld	s0,32(sp)
+ 150              		.cfi_restore 8
+ 151              		.cfi_def_cfa 2, 48
+ 152 00f4 83348101 		ld	s1,24(sp)
+ 153              		.cfi_restore 9
+ 154 00f8 13010103 		addi	sp,sp,48
+ 155              		.cfi_def_cfa_offset 0
+ 156 00fc 67800000 		jr	ra
+GAS LISTING /tmp/ccI4CSnj.s 			page 7
+
+
+ 157              		.cfi_endproc
+ 158              	.LFE45:
+ 160              	.Letext0:
+ 161              		.file 3 "src/../h/../lib/hw.h"
+ 162              		.file 4 "src/../h/syscall_c.h"
+ 163              		.file 5 "src/printing.hpp"
+GAS LISTING /tmp/ccI4CSnj.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/ccI4CSnj.s:9      .text:0000000000000000 _Z17userWrapperThreadPv
+     /tmp/ccI4CSnj.s:13     .text:0000000000000000 .L0 
+     /tmp/ccI4CSnj.s:15     .text:0000000000000000 .L0 
+     /tmp/ccI4CSnj.s:16     .text:0000000000000004 .L0 
+     /tmp/ccI4CSnj.s:19     .text:000000000000000c .L0 
+     /tmp/ccI4CSnj.s:20     .text:000000000000000c .L0 
+     /tmp/ccI4CSnj.s:22     .text:0000000000000010 .L0 
+     /tmp/ccI4CSnj.s:24     .text:0000000000000010 .L0 
+     /tmp/ccI4CSnj.s:25     .text:0000000000000010 .L0 
+     /tmp/ccI4CSnj.s:28     .text:0000000000000018 .L0 
+     /tmp/ccI4CSnj.s:29     .text:000000000000001c .L0 
+     /tmp/ccI4CSnj.s:31     .text:0000000000000020 .L0 
+     /tmp/ccI4CSnj.s:32     .text:0000000000000020 .L0 
+     /tmp/ccI4CSnj.s:34     .text:0000000000000024 .L0 
+     /tmp/ccI4CSnj.s:36     .text:0000000000000028 .L0 
+     /tmp/ccI4CSnj.s:53     .text:0000000000000028 main
+     /tmp/ccI4CSnj.s:56     .text:0000000000000028 .L0 
+     /tmp/ccI4CSnj.s:57     .text:0000000000000028 .L0 
+     /tmp/ccI4CSnj.s:58     .text:000000000000002c .L0 
+     /tmp/ccI4CSnj.s:62     .text:0000000000000038 .L0 
+     /tmp/ccI4CSnj.s:63     .text:0000000000000038 .L0 
+     /tmp/ccI4CSnj.s:64     .text:0000000000000038 .L0 
+     /tmp/ccI4CSnj.s:66     .text:000000000000003c .L0 
+     /tmp/ccI4CSnj.s:68     .text:000000000000003c .L0 
+     /tmp/ccI4CSnj.s:69     .text:000000000000003c .L0 
+     /tmp/ccI4CSnj.s:75     .text:0000000000000048 .L0 
+     /tmp/ccI4CSnj.s:76     .text:0000000000000048 .L0 
+     /tmp/ccI4CSnj.s:78     .text:0000000000000048 .L0 
+     /tmp/ccI4CSnj.s:84     .text:000000000000005c .L0 
+     /tmp/ccI4CSnj.s:85     .text:000000000000005c .L0 
+     /tmp/ccI4CSnj.s:89     .text:000000000000006c .L0 
+     /tmp/ccI4CSnj.s:90     .text:000000000000006c .L0 
+     /tmp/ccI4CSnj.s:91     .text:000000000000006c .L0 
+     /tmp/ccI4CSnj.s:95     .text:000000000000007c .L0 
+     /tmp/ccI4CSnj.s:96     .text:000000000000007c .L0 
+     /tmp/ccI4CSnj.s:103    .text:0000000000000094 .L0 
+     /tmp/ccI4CSnj.s:104    .text:0000000000000094 .L0 
+     /tmp/ccI4CSnj.s:110    .text:00000000000000ac .L0 
+     /tmp/ccI4CSnj.s:113    .text:00000000000000b0 .L0 
+     /tmp/ccI4CSnj.s:114    .text:00000000000000b0 .L0 
+     /tmp/ccI4CSnj.s:115    .text:00000000000000b0 .L0 
+     /tmp/ccI4CSnj.s:121    .text:00000000000000b4 .L0 
+     /tmp/ccI4CSnj.s:122    .text:00000000000000b4 .L0 
+     /tmp/ccI4CSnj.s:127    .text:00000000000000b8 .L0 
+     /tmp/ccI4CSnj.s:129    .text:00000000000000bc .L0 
+     /tmp/ccI4CSnj.s:130    .text:00000000000000bc .L0 
+     /tmp/ccI4CSnj.s:135    .text:00000000000000c8 .L0 
+     /tmp/ccI4CSnj.s:136    .text:00000000000000c8 .L0 
+     /tmp/ccI4CSnj.s:142    .text:00000000000000dc .L0 
+     /tmp/ccI4CSnj.s:143    .text:00000000000000dc .L0 
+     /tmp/ccI4CSnj.s:147    .text:00000000000000ec .L0 
+     /tmp/ccI4CSnj.s:148    .text:00000000000000f0 .L0 
+     /tmp/ccI4CSnj.s:150    .text:00000000000000f4 .L0 
+     /tmp/ccI4CSnj.s:151    .text:00000000000000f4 .L0 
+     /tmp/ccI4CSnj.s:153    .text:00000000000000f8 .L0 
+GAS LISTING /tmp/ccI4CSnj.s 			page 9
+
+
+     /tmp/ccI4CSnj.s:155    .text:00000000000000fc .L0 
+     /tmp/ccI4CSnj.s:157    .text:0000000000000100 .L0 
+     /tmp/ccI4CSnj.s:164    .text:0000000000000100 .L0 
+     /tmp/ccI4CSnj.s:69     .text:000000000000003c .L0 
+     /tmp/ccI4CSnj.s:85     .text:000000000000005c .L0 
+     /tmp/ccI4CSnj.s:41     .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccI4CSnj.s:91     .text:000000000000006c .L0 
+     /tmp/ccI4CSnj.s:105    .text:0000000000000098 .L0 
+     /tmp/ccI4CSnj.s:44     .rodata.str1.8:0000000000000010 .LC1
+     /tmp/ccI4CSnj.s:136    .text:00000000000000c8 .L0 
+     /tmp/ccI4CSnj.s:47     .rodata.str1.8:0000000000000018 .LC2
+     /tmp/ccI4CSnj.s:143    .text:00000000000000dc .L0 
+     /tmp/ccI4CSnj.s:133    .text:00000000000000c8 .L8
+     /tmp/ccI4CSnj.s:140    .text:00000000000000dc .L5
+     /tmp/ccI4CSnj.s:111    .text:00000000000000b0 .L6
+     /tmp/ccI4CSnj.s:843    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccI4CSnj.s:1684   .debug_str:00000000000003c0 .LASF69
+     /tmp/ccI4CSnj.s:1590   .debug_str:00000000000000ed .LASF70
+     /tmp/ccI4CSnj.s:1706   .debug_str:0000000000000524 .LASF71
+     /tmp/ccI4CSnj.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccI4CSnj.s:160    .text:0000000000000100 .Letext0
+     /tmp/ccI4CSnj.s:1556   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccI4CSnj.s:1606   .debug_str:0000000000000171 .LASF0
+     /tmp/ccI4CSnj.s:1616   .debug_str:00000000000001da .LASF1
+     /tmp/ccI4CSnj.s:1652   .debug_str:00000000000002df .LASF2
+     /tmp/ccI4CSnj.s:1654   .debug_str:00000000000002ed .LASF4
+     /tmp/ccI4CSnj.s:1612   .debug_str:00000000000001b5 .LASF3
+     /tmp/ccI4CSnj.s:1564   .debug_str:0000000000000039 .LASF5
+     /tmp/ccI4CSnj.s:1640   .debug_str:0000000000000292 .LASF6
+     /tmp/ccI4CSnj.s:1614   .debug_str:00000000000001c7 .LASF7
+     /tmp/ccI4CSnj.s:1594   .debug_str:00000000000000ff .LASF8
+     /tmp/ccI4CSnj.s:1598   .debug_str:000000000000011b .LASF9
+     /tmp/ccI4CSnj.s:1572   .debug_str:000000000000006a .LASF10
+     /tmp/ccI4CSnj.s:1588   .debug_str:00000000000000de .LASF11
+     /tmp/ccI4CSnj.s:1578   .debug_str:0000000000000092 .LASF12
+     /tmp/ccI4CSnj.s:1570   .debug_str:000000000000005a .LASF13
+     /tmp/ccI4CSnj.s:1670   .debug_str:0000000000000361 .LASF14
+     /tmp/ccI4CSnj.s:1584   .debug_str:00000000000000b9 .LASF15
+     /tmp/ccI4CSnj.s:1664   .debug_str:000000000000032b .LASF16
+     /tmp/ccI4CSnj.s:1674   .debug_str:0000000000000388 .LASF72
+     /tmp/ccI4CSnj.s:1582   .debug_str:00000000000000b0 .LASF35
+     /tmp/ccI4CSnj.s:1574   .debug_str:0000000000000079 .LASF37
+     /tmp/ccI4CSnj.s:1656   .debug_str:00000000000002f4 .LASF21
+     /tmp/ccI4CSnj.s:1562   .debug_str:000000000000002d .LASF23
+     /tmp/ccI4CSnj.s:1676   .debug_str:0000000000000390 .LASF17
+     /tmp/ccI4CSnj.s:1632   .debug_str:000000000000024b .LASF19
+     /tmp/ccI4CSnj.s:1596   .debug_str:000000000000010f .LASF18
+     /tmp/ccI4CSnj.s:1678   .debug_str:000000000000039b .LASF20
+     /tmp/ccI4CSnj.s:1566   .debug_str:0000000000000040 .LASF22
+     /tmp/ccI4CSnj.s:1694   .debug_str:00000000000004b8 .LASF24
+     /tmp/ccI4CSnj.s:1646   .debug_str:00000000000002b7 .LASF25
+     /tmp/ccI4CSnj.s:1602   .debug_str:000000000000014c .LASF26
+     /tmp/ccI4CSnj.s:1620   .debug_str:00000000000001f3 .LASF27
+     /tmp/ccI4CSnj.s:1700   .debug_str:00000000000004f7 .LASF28
+     /tmp/ccI4CSnj.s:1668   .debug_str:0000000000000354 .LASF29
+     /tmp/ccI4CSnj.s:1600   .debug_str:0000000000000129 .LASF30
+     /tmp/ccI4CSnj.s:1638   .debug_str:000000000000028d .LASF73
+GAS LISTING /tmp/ccI4CSnj.s 			page 10
+
+
+     /tmp/ccI4CSnj.s:1714   .debug_str:000000000000055a .LASF31
+     /tmp/ccI4CSnj.s:1610   .debug_str:0000000000000196 .LASF32
+     /tmp/ccI4CSnj.s:1626   .debug_str:000000000000021d .LASF33
+     /tmp/ccI4CSnj.s:1672   .debug_str:000000000000036d .LASF34
+     /tmp/ccI4CSnj.s:1618   .debug_str:00000000000001ed .LASF36
+     /tmp/ccI4CSnj.s:1686   .debug_str:0000000000000484 .LASF38
+     /tmp/ccI4CSnj.s:1682   .debug_str:00000000000003b8 .LASF74
+     /tmp/ccI4CSnj.s:1660   .debug_str:000000000000030a .LASF75
+     /tmp/ccI4CSnj.s:1650   .debug_str:00000000000002d4 .LASF39
+     /tmp/ccI4CSnj.s:1608   .debug_str:000000000000017e .LASF76
+     /tmp/ccI4CSnj.s:1558   .debug_str:0000000000000000 .LASF40
+     /tmp/ccI4CSnj.s:1712   .debug_str:0000000000000554 .LASF41
+     /tmp/ccI4CSnj.s:1692   .debug_str:00000000000004b0 .LASF42
+     /tmp/ccI4CSnj.s:1688   .debug_str:0000000000000494 .LASF43
+     /tmp/ccI4CSnj.s:1662   .debug_str:0000000000000322 .LASF44
+     /tmp/ccI4CSnj.s:1634   .debug_str:0000000000000262 .LASF45
+     /tmp/ccI4CSnj.s:1576   .debug_str:000000000000008c .LASF46
+     /tmp/ccI4CSnj.s:1568   .debug_str:000000000000004c .LASF47
+     /tmp/ccI4CSnj.s:1696   .debug_str:00000000000004cf .LASF49
+     /tmp/ccI4CSnj.s:1580   .debug_str:00000000000000a2 .LASF48
+     /tmp/ccI4CSnj.s:1560   .debug_str:0000000000000005 .LASF50
+     /tmp/ccI4CSnj.s:1658   .debug_str:00000000000002f9 .LASF77
+     /tmp/ccI4CSnj.s:1708   .debug_str:000000000000053d .LASF78
+     /tmp/ccI4CSnj.s:1704   .debug_str:000000000000051b .LASF51
+     /tmp/ccI4CSnj.s:1622   .debug_str:0000000000000200 .LASF52
+     /tmp/ccI4CSnj.s:1680   .debug_str:00000000000003b3 .LASF53
+     /tmp/ccI4CSnj.s:1716   .debug_str:0000000000000564 .LASF54
+     /tmp/ccI4CSnj.s:54     .text:0000000000000028 .LFB45
+     /tmp/ccI4CSnj.s:158    .text:0000000000000100 .LFE45
+     /tmp/ccI4CSnj.s:1630   .debug_str:0000000000000240 .LASF55
+     /tmp/ccI4CSnj.s:1702   .debug_str:0000000000000510 .LASF56
+     /tmp/ccI4CSnj.s:117    .text:00000000000000b4 .LBB4
+     /tmp/ccI4CSnj.s:125    .text:00000000000000b8 .LBE4
+     /tmp/ccI4CSnj.s:1522   .debug_loc:0000000000000000 .LLST1
+     /tmp/ccI4CSnj.s:82     .text:000000000000005c .LVL2
+     /tmp/ccI4CSnj.s:93     .text:000000000000007c .LVL3
+     /tmp/ccI4CSnj.s:101    .text:0000000000000094 .LVL4
+     /tmp/ccI4CSnj.s:108    .text:00000000000000ac .LVL5
+     /tmp/ccI4CSnj.s:131    .text:00000000000000c4 .LVL8
+     /tmp/ccI4CSnj.s:138    .text:00000000000000d8 .LVL9
+     /tmp/ccI4CSnj.s:145    .text:00000000000000ec .LVL10
+     /tmp/ccI4CSnj.s:1690   .debug_str:000000000000049e .LASF57
+     /tmp/ccI4CSnj.s:1624   .debug_str:0000000000000205 .LASF58
+     /tmp/ccI4CSnj.s:10     .text:0000000000000000 .LFB44
+     /tmp/ccI4CSnj.s:37     .text:0000000000000028 .LFE44
+     /tmp/ccI4CSnj.s:1529   .debug_loc:0000000000000023 .LLST0
+     /tmp/ccI4CSnj.s:26     .text:0000000000000018 .LVL1
+     /tmp/ccI4CSnj.s:1592   .debug_str:00000000000000fa .LASF79
+     /tmp/ccI4CSnj.s:1636   .debug_str:000000000000026c .LASF59
+     /tmp/ccI4CSnj.s:1698   .debug_str:00000000000004e9 .LASF61
+     /tmp/ccI4CSnj.s:1666   .debug_str:0000000000000341 .LASF60
+     /tmp/ccI4CSnj.s:1710   .debug_str:0000000000000548 .LASF62
+     /tmp/ccI4CSnj.s:1586   .debug_str:00000000000000cf .LASF63
+     /tmp/ccI4CSnj.s:1642   .debug_str:00000000000002a5 .LASF64
+     /tmp/ccI4CSnj.s:1628   .debug_str:000000000000022b .LASF65
+     /tmp/ccI4CSnj.s:1648   .debug_str:00000000000002c4 .LASF66
+     /tmp/ccI4CSnj.s:1604   .debug_str:0000000000000164 .LASF67
+GAS LISTING /tmp/ccI4CSnj.s 			page 11
+
+
+     /tmp/ccI4CSnj.s:1644   .debug_str:00000000000002ae .LASF68
+     /tmp/ccI4CSnj.s:116    .text:00000000000000b4 .LVL6
+     /tmp/ccI4CSnj.s:123    .text:00000000000000b8 .LVL7
+     /tmp/ccI4CSnj.s:14     .text:0000000000000000 .LVL0
+     /tmp/ccI4CSnj.s:165    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+_Z8userMainv
+_ZN5Riscv14supervisorTrapEv
+_Z13thread_createPP3TCBPFvPvES2_
+_ZN3TCB7runningE
+_Z11printStringPKc
+_Z8printIntiii
+_Z15thread_dispatchv
